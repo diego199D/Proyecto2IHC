@@ -1,0 +1,94 @@
+/* public/css/planes/listar.css — pantalla "Mis planes" */
+
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.encabezado h1 {
+    margin: 0;
+}
+
+/* Tabla de planes */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e3e3df;
+    border-radius: 10px;
+}
+
+.tabla th,
+.tabla td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e3e3df;
+}
+
+.tabla th {
+    font-size: 13px;
+    color: #6f6f6a;
+}
+
+.acciones {
+    display: flex;
+    gap: 8px;
+}
+
+.vacio {
+    text-align: center;
+    color: #6f6f6a;
+}
+
+/* Dialog para crear */
+dialog {
+    width: 90%;
+    max-width: 400px;
+    padding: 24px;
+    border: none;
+    border-radius: 12px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+dialog h2 {
+    margin-top: 0;
+}
+
+.dialogo-botones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Etiqueta de estado */
+.estado {
+    padding: 3px 10px;
+    font-size: 13px;
+    border-radius: 20px;
+}
+
+.estado-pendiente {
+    background: #fff4d6;
+    color: #8a6100;
+}
+
+.estado-confirmado {
+    background: #edf7ef;
+    color: #25663a;
+}
+
+.estado-cancelado {
+    background: #eeeeec;
+    color: #6f6f6a;
+}
+
+/* Botón Eliminar desactivado (plan confirmado) */
+.boton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

@@ -1,0 +1,229 @@
+/* public/css/acceso.css — inicio de sesión, registro y recuperar contraseña */
+
+:root {
+    --fondo: #f6f6f4;
+    --tarjeta: #ffffff;
+    --texto: #1c1c1a;
+    --tenue: #6f6f6a;
+    --borde: #e3e3df;
+    --acento: #1c1c1a;
+    --acento-texto: #ffffff;
+    --error: #c0392b;
+    --exito-fondo: #edf7ef;
+    --exito-texto: #25663a;
+    --radio: 10px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--texto);
+    background: var(--fondo);
+}
+
+.acceso {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+}
+
+.tarjeta {
+    width: 100%;
+    max-width: 380px;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 36px 32px;
+}
+
+/* Encabezado */
+.encabezado {
+    margin-bottom: 28px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 18px;
+    border-radius: 9px;
+    background: var(--acento);
+    color: var(--acento-texto);
+    font-weight: 700;
+}
+
+.encabezado h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.encabezado p {
+    margin: 0;
+    color: var(--tenue);
+}
+
+/* Formulario */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-fila {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--texto);
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input::placeholder {
+    color: #b0b0aa;
+}
+
+input:focus {
+    border-color: var(--acento);
+    box-shadow: 0 0 0 3px rgba(28, 28, 26, 0.08);
+}
+
+input.invalido {
+    border-color: var(--error);
+}
+
+.campo-error {
+    font-size: 13px;
+    color: var(--error);
+}
+
+/* Casilla "Recordarme" */
+.casilla {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 400;
+    color: var(--tenue);
+    cursor: pointer;
+}
+
+.casilla input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--acento);
+}
+
+/* Botón */
+.boton {
+    width: 100%;
+    padding: 11px 16px;
+    font: inherit;
+    font-weight: 500;
+    color: var(--acento-texto);
+    background: var(--acento);
+    border: none;
+    border-radius: var(--radio);
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.boton:hover {
+    opacity: 0.85;
+}
+
+.boton:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+/* Enlaces */
+a {
+    color: var(--texto);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.enlace-pequeno {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--tenue);
+}
+
+/* Alertas (ej. "Te enviamos el enlace") */
+.alerta {
+    margin-bottom: 18px;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: var(--radio);
+}
+
+.alerta-exito {
+    background: var(--exito-fondo);
+    color: var(--exito-texto);
+}
+
+/* Pie */
+.pie {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borde);
+    font-size: 14px;
+    color: var(--tenue);
+    text-align: center;
+}
+
+@media (max-width: 420px) {
+    .tarjeta {
+        padding: 28px 22px;
+    }
+}
+.alerta-error {
+    background: #fbeceb;
+    color: var(--error);
+}
+
+/* Botón de "Salir" en la página de inicio */
+.boton-secundario {
+    background: transparent;
+    color: var(--texto);
+    border: 1px solid var(--borde);
+}

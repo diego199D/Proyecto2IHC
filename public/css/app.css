@@ -1,0 +1,101 @@
+/* public/css/app.css — plantilla base (barra de arriba, botones, formularios) */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    color: #1c1c1a;
+    background: #f6f6f4;
+}
+
+/* Barra de arriba */
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e3e3df;
+}
+
+.marca {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1c1a;
+    text-decoration: none;
+}
+
+.barra-derecha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.contenedor {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* Botones */
+.boton {
+    padding: 9px 16px;
+    font: inherit;
+    color: #ffffff;
+    background: #1c1c1a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.boton-claro {
+    color: #1c1c1a;
+    background: #ffffff;
+    border: 1px solid #e3e3df;
+}
+
+.boton-rojo {
+    background: #c0392b;
+}
+
+/* Formularios */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.campo input {
+    padding: 9px 12px;
+    font: inherit;
+    border: 1px solid #e3e3df;
+    border-radius: 8px;
+}
+
+.campo-error {
+    font-size: 13px;
+    color: #c0392b;
+}
+
+/* Mensajes flash */
+.alerta {
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+}
+
+.alerta-exito {
+    background: #edf7ef;
+    color: #25663a;
+}
+
+.alerta-error {
+    background: #fbeceb;
+    color: #c0392b;
+}

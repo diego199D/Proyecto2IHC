@@ -1,0 +1,21 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.nav-superior{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.todos-planes{
+    background-color: rgb(195, 218, 188);
+    color: black;
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+}
