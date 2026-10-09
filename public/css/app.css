@@ -18,7 +18,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 24px;
-    background: #ffffff;
+    background: #ffe683;
     border-bottom: 1px solid #e3e3df;
 }
 
@@ -46,7 +46,7 @@ body {
     padding: 9px 16px;
     font: inherit;
     color: #ffffff;
-    background: #1c1c1a;
+    background: #60605f;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -58,9 +58,14 @@ body {
     background: #ffffff;
     border: 1px solid #e3e3df;
 }
+.boton-editar{
+    color: #1c1c1a;
+    background: #a3a60b;
+    border: 1px solid #e3e3df;
+}
 
 .boton-rojo {
-    background: #c0392b;
+    background: #a94836;
 }
 
 /* Formularios */

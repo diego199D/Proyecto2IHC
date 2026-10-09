@@ -132,7 +132,7 @@ input.invalido {
     color: var(--error);
 }
 
-/* Casilla "Recordarme" */
+
 .casilla {
     display: flex;
     align-items: center;
@@ -188,7 +188,7 @@ a:hover {
     color: var(--tenue);
 }
 
-/* Alertas (ej. "Te enviamos el enlace") */
+
 .alerta {
     margin-bottom: 18px;
     padding: 10px 12px;
@@ -201,7 +201,7 @@ a:hover {
     color: var(--exito-texto);
 }
 
-/* Pie */
+
 .pie {
     margin-top: 24px;
     padding-top: 20px;
@@ -221,7 +221,7 @@ a:hover {
     color: var(--error);
 }
 
-/* Botón de "Salir" en la página de inicio */
+
 .boton-secundario {
     background: transparent;
     color: var(--texto);

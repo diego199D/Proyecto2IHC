@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/ingresar');
 
 // Ingresar
-// (el nombre 'login' lo usa Laravel para mandar aquí a quien no ha iniciado sesión)
 Route::get('/ingresar', [AutentificacionController::class, 'mostrarIngreso'])->name('login');
 Route::post('/ingresar', [AutentificacionController::class, 'ingresar'])->name('ingresar');
 
@@ -20,7 +19,6 @@ Route::get('/recuperar', [AutentificacionController::class, 'mostrarRecuperar'])
 Route::post('/recuperar', [AutentificacionController::class, 'enviarCorreo'])->name('enviar.correo');
 
 // Restablecer contraseña
-// (el nombre 'password.reset' lo usa Laravel para armar el enlace del correo)
 Route::get('/restablecer/{token}', [AutentificacionController::class, 'mostrarRestablecer'])->name('password.reset');
 Route::post('/restablecer', [AutentificacionController::class, 'restablecer'])->name('restablecer');
 

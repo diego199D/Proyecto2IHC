@@ -17,7 +17,7 @@
         <tr>
             <th>Plan</th>
             <th>Organizador</th>
-            <th>Fecha límite</th>
+            <th>Fecha limite</th>
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -43,11 +43,11 @@
                     @endif
                 </form>
 
-                <a href="{{ route('planes.editar', $plan) }}" class="boton boton-claro">Editar</a>
+                <a href="{{ route('planes.editar', $plan) }}" class="boton boton-editar">Editar</a>
 
                 {{-- Restricción: si está confirmado, no se puede eliminar --}}
                 @if ($plan->estado == 'confirmado')
-                    <button class="boton boton-rojo" disabled title="Cancela el plan para poder eliminarlo">Eliminar</button>
+                    <button class="boton boton-rojo" disabled title="">Eliminar</button>
                 @else
                     <form method="POST" action="{{ route('planes.eliminar', $plan) }}">
                         @csrf
