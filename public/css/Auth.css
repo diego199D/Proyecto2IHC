@@ -148,7 +148,7 @@ input.invalido {
     accent-color: var(--acento);
 }
 
-/* Botón */
+/* Boton */
 .boton {
     width: 100%;
     padding: 11px 16px;
@@ -188,7 +188,7 @@ a:hover {
     color: var(--tenue);
 }
 
-/* Alertas (ej. "Te enviamos el enlace") */
+/* Alertas*/
 .alerta {
     margin-bottom: 18px;
     padding: 10px 12px;

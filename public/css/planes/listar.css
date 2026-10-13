@@ -11,6 +11,54 @@
     margin: 0;
 }
 
+/* Formulario de filtros */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.filtros input[type="text"],
+.filtros select {
+    padding: 8px 12px;
+    font: inherit;
+    border: 1px solid #e3e3df;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+.filtros input[type="text"] {
+    flex: 1;
+    min-width: 160px;
+}
+
+/* Chips de filtros activos */
+.filtros-activos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #6f6f6a;
+}
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #ffe683;
+    color: #1c1c1a;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.chip:hover {
+    background: #ffd93d;
+}
+
 /* Tabla de planes */
 .tabla {
     width: 100%;
@@ -70,6 +118,7 @@ dialog h2 {
     padding: 3px 10px;
     font-size: 13px;
     border-radius: 20px;
+    white-space: nowrap;
 }
 
 .estado-pendiente {

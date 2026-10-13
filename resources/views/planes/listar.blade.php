@@ -12,12 +12,61 @@
     <button class="boton" onclick="document.getElementById('dialogo').showModal()">+ Crear plan</button>
 </div>
 
+{{-- Formulario de búsqueda y filtros --}}
+<form method="GET" action="{{ route('planes.listar') }}" class="filtros">
+    <input type="text" name="buscar" placeholder="Buscar" value="{{ $buscar }}">
+
+    <select name="estado">
+        <option value="">Todos los estados</option>
+        <option value="pendiente"  {{ $estado === 'pendiente'  ? 'selected' : '' }}>Pendiente</option>
+        <option value="confirmado" {{ $estado === 'confirmado' ? 'selected' : '' }}>Confirmado</option>
+        <option value="cancelado"  {{ $estado === 'cancelado'  ? 'selected' : '' }}>Cancelado</option>
+    </select>
+
+    <select name="fecha">
+        <option value="">Cualquier fecha</option>
+        <option value="7dias"   {{ $fecha === '7dias'   ? 'selected' : '' }}>Próximos 7 días</option>
+        <option value="vencidos" {{ $fecha === 'vencidos' ? 'selected' : '' }}>Ya vencidos</option>
+    </select>
+
+    <button type="submit" class="boton">Filtrar</button>
+
+    @if ($buscar || $estado || $fecha)
+        <a href="{{ route('planes.listar') }}" class="boton boton-claro">Limpiar</a>
+    @endif
+</form>
+
+{{-- Chips de filtros activos --}}
+@if ($buscar || $estado || $fecha)
+<div class="filtros-activos">
+    <span>Filtros activos:</span>
+
+    @if ($buscar)
+        <a href="{{ route('planes.listar', array_filter(['estado' => $estado, 'fecha' => $fecha])) }}" class="chip">
+            "{{ $buscar }}" ×
+        </a>
+    @endif
+
+    @if ($estado)
+        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'fecha' => $fecha])) }}" class="chip">
+            {{ ucfirst($estado) }} ×
+        </a>
+    @endif
+
+    @if ($fecha)
+        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'estado' => $estado])) }}" class="chip">
+            {{ $fecha === '7dias' ? 'Próximos 7 días' : 'Ya vencidos' }} ×
+        </a>
+    @endif
+</div>
+@endif
+
 <table class="tabla">
     <thead>
         <tr>
             <th>Plan</th>
             <th>Organizador</th>
-            <th>Fecha limite</th>
+            <th>Fecha límite</th>
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -28,7 +77,14 @@
             <td>{{ $plan->nombre }}</td>
             <td>{{ $plan->organizador }}</td>
             <td>{{ $plan->fecha_limite->format('d/m/Y') }}</td>
-            <td><span class="estado estado-{{ $plan->estado }}">{{ $plan->estado }}</span></td>
+            <td>
+                <span class="estado estado-{{ $plan->estado }}">
+                    @if ($plan->estado === 'pendiente')  Pendiente
+                    @elseif ($plan->estado === 'confirmado')  Confirmado
+                    @else  Cancelado
+                    @endif
+                </span>
+            </td>
             <td class="acciones">
                 {{-- Confirmar o Cancelar, según el estado actual --}}
                 <form method="POST" action="{{ route('planes.estado', $plan) }}">
@@ -58,7 +114,15 @@
             </td>
         </tr>
         @empty
-            <tr><td colspan="5" class="vacio">Todavía no tienes planes. ¡Crea el primero!</td></tr>
+            <tr>
+                <td colspan="5" class="vacio">
+                    @if ($buscar || $estado || $fecha)
+                        Ningún plan coincide con los filtros aplicados.
+                    @else
+                        Todavía no tienes planes. ¡Crea el primero!
+                    @endif
+                </td>
+            </tr>
         @endforelse
     </tbody>
 </table>

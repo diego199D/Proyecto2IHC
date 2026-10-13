@@ -17,13 +17,18 @@ class PlanesController extends Controller
 
     // ---------- LISTAR (pantalla "Mis planes") ----------
 
-    public function listar()
+    public function listar(Request $request)
     {
+        $buscar = $request->input('buscar');
+        $estado = $request->input('estado');
+        $fecha  = $request->input('fecha');
+
         $planes = Plan::where('user_id', auth()->id())
+                      ->filtrar($buscar, $estado, $fecha)
                       ->orderBy('fecha_limite', 'asc')
                       ->get();
 
-        return view('planes.listar', compact('planes'));
+        return view('planes.listar', compact('planes', 'buscar', 'estado', 'fecha'));
     }
 
     // ---------- GUARDAR (formulario del dialog) ----------
