@@ -17,7 +17,7 @@ class Plan extends Model
         'fecha_limite' => 'date',
     ];
 
-    // Scope para búsqueda y filtros combinables
+    //  para busqueda y filtros 
     public function scopeFiltrar($query, ?string $buscar, ?string $estado, ?string $fecha)
     {
         if ($buscar) {

@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Password;
 
 class AutentificacionController extends Controller
 {
-    // ---------- INGRESAR ----------
+    /*
+    |--------------------------------------------------------------------------
+    | INGRESAR — GET /ingresar  +  POST /ingresar
+    |--------------------------------------------------------------------------
+    */
 
     public function mostrarIngreso()
     {
@@ -28,20 +32,25 @@ class AutentificacionController extends Controller
             'contrasena.required' => 'Escribe tu contraseña.',
         ]);
 
-        // Auth::attempt busca al usuario por correo y compara la contraseña
-        $datos = [
+        // Auth::attempt hace la búsqueda en la BD y compara el hash de la contraseña
+        $credenciales = [
             'email'    => $request->correo,
             'password' => $request->contrasena,
         ];
 
-        if (Auth::attempt($datos)) {
+        if (Auth::attempt($credenciales)) {
+            $request->session()->regenerate(); // Previene ataques de fijación de sesión
             return redirect()->route('planes.listar');
         }
 
         return back()->with('error', 'El correo o la contraseña no son correctos.');
     }
 
-    // ---------- REGISTRO ----------
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTRO — GET /registro  +  POST /registro
+    |--------------------------------------------------------------------------
+    */
 
     public function mostrarRegistro()
     {
@@ -64,18 +73,24 @@ class AutentificacionController extends Controller
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
+        // Creamos el usuario y hasheamos la contraseña (nunca guardar en texto plano)
         $usuario = new User();
-        $usuario->name = $request->nombre;
-        $usuario->email = $request->correo;
+        $usuario->name     = $request->nombre;
+        $usuario->email    = $request->correo;
         $usuario->password = Hash::make($request->contrasena);
         $usuario->save();
 
-        Auth::login($usuario);   // Entra directo después de registrarse
+        Auth::login($usuario); // Lo logueamos directo tras registrarse
 
         return redirect()->route('planes.listar');
     }
 
-    // ---------- RECUPERAR CONTRASEÑA (enviar el correo) ----------
+    /*
+    |--------------------------------------------------------------------------
+    | RECUPERAR CONTRASEÑA — GET /recuperar  +  POST /recuperar
+    | El usuario pide un enlace de restablecimiento a su correo
+    |--------------------------------------------------------------------------
+    */
 
     public function mostrarRecuperar()
     {
@@ -91,11 +106,11 @@ class AutentificacionController extends Controller
             'correo.email'    => 'El correo no es válido.',
         ]);
 
-        // Laravel crea el token y manda el correo con el enlace
-        // Si Gmail falla (datos de .env mal puestos), mostramos un mensaje en vez de la pantalla de error
+        // Laravel genera el token y envía el correo automáticamente
         try {
             $estado = Password::sendResetLink(['email' => $request->correo]);
         } catch (\Exception $e) {
+            // Si el servidor de correo falla (ej. credenciales Gmail mal configuradas)
             return back()->with('error', 'No se pudo enviar el correo. Revisa la configuración de correo.');
         }
 
@@ -106,11 +121,16 @@ class AutentificacionController extends Controller
         return back()->with('error', 'No existe una cuenta con ese correo.');
     }
 
-    // ---------- RESTABLECER CONTRASEÑA (desde el enlace del correo) ----------
+    /*
+    |--------------------------------------------------------------------------
+    | RESTABLECER CONTRASEÑA — GET /restablecer/{token}  +  POST /restablecer
+    | Formulario al que llega el usuario desde el enlace del correo
+    |--------------------------------------------------------------------------
+    */
 
     public function mostrarRestablecer(Request $request, $token)
     {
-        $correo = $request->email;   // Viene en el enlace: ?email=...
+        $correo = $request->email; // Viene en el enlace: ?email=...
         return view('acceso.restablecer', compact('token', 'correo'));
     }
 
@@ -146,7 +166,11 @@ class AutentificacionController extends Controller
         return back()->with('error', 'El enlace no es válido o ya expiró. Pide uno nuevo.');
     }
 
-    // ---------- SALIR ----------
+    /*
+    |--------------------------------------------------------------------------
+    | SALIR — POST /salir
+    |--------------------------------------------------------------------------
+    */
 
     public function salir()
     {

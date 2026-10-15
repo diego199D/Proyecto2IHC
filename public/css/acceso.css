@@ -1,22 +1,24 @@
-/* public/css/acceso.css — inicio de sesión, registro y recuperar contraseña */
+/* =================================================================
+   acceso.css — Pantallas de login, registro y recuperar contraseña
+   ================================================================= */
 
+/* ── Variables de color ───────────────────────────────────────── */
 :root {
-    --fondo: #f6f6f4;
-    --tarjeta: #ffffff;
-    --texto: #1c1c1a;
-    --tenue: #6f6f6a;
-    --borde: #e3e3df;
-    --acento: #1c1c1a;
+    --fondo:        #f6f6f4;
+    --tarjeta:      #ffffff;
+    --texto:        #1c1c1a;
+    --tenue:        #6f6f6a;
+    --borde:        #e3e3df;
+    --acento:       #1c1c1a;
     --acento-texto: #ffffff;
-    --error: #c0392b;
-    --exito-fondo: #edf7ef;
-    --exito-texto: #25663a;
-    --radio: 10px;
+    --error:        #c0392b;
+    --exito-fondo:  #edf7ef;
+    --exito-texto:  #25663a;
+    --radio:        10px;
 }
 
-*,
-*::before,
-*::after {
+/* ── Reset básico ─────────────────────────────────────────────── */
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -29,7 +31,8 @@ body {
     background: var(--fondo);
 }
 
-.acceso {
+/* ── Página centrada verticalmente ───────────────────────────── */
+.pagina-acceso {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -37,7 +40,8 @@ body {
     padding: 24px 16px;
 }
 
-.tarjeta {
+/* ── Tarjeta blanca con el formulario ────────────────────────── */
+.tarjeta-acceso {
     width: 100%;
     max-width: 380px;
     background: var(--tarjeta);
@@ -46,12 +50,12 @@ body {
     padding: 36px 32px;
 }
 
-/* Encabezado */
-.encabezado {
+/* ── Encabezado (logo + título + subtítulo) ───────────────────── */
+.acceso-encabezado {
     margin-bottom: 28px;
 }
 
-.logo {
+.acceso-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -64,31 +68,33 @@ body {
     font-weight: 700;
 }
 
-.encabezado h1 {
+.acceso-encabezado h1 {
     margin: 0 0 4px;
     font-size: 22px;
     font-weight: 600;
     letter-spacing: -0.01em;
 }
 
-.encabezado p {
+.acceso-encabezado p {
     margin: 0;
     color: var(--tenue);
 }
 
-/* Formulario */
-.formulario {
+/* ── Formulario ───────────────────────────────────────────────── */
+.acceso-form {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
+/* Un campo = label + input + error */
 .campo {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
+/* Fila con label a la izquierda y "¿La olvidaste?" a la derecha */
 .campo-fila {
     display: flex;
     align-items: baseline;
@@ -114,42 +120,23 @@ input[type="password"] {
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-input::placeholder {
-    color: #b0b0aa;
-}
+input::placeholder { color: #b0b0aa; }
 
 input:focus {
     border-color: var(--acento);
     box-shadow: 0 0 0 3px rgba(28, 28, 26, 0.08);
 }
 
-input.invalido {
-    border-color: var(--error);
-}
+/* Clase que Laravel agrega automáticamente cuando hay un error en ese campo */
+input.invalido { border-color: var(--error); }
 
 .campo-error {
     font-size: 13px;
     color: var(--error);
 }
 
-
-.casilla {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 400;
-    color: var(--tenue);
-    cursor: pointer;
-}
-
-.casilla input {
-    width: 15px;
-    height: 15px;
-    accent-color: var(--acento);
-}
-
-/* Botón */
-.boton {
+/* ── Botón de submit ──────────────────────────────────────────── */
+.boton-acceso {
     width: 100%;
     padding: 11px 16px;
     font: inherit;
@@ -162,25 +149,17 @@ input.invalido {
     transition: opacity 0.15s;
 }
 
-.boton:hover {
-    opacity: 0.85;
-}
+.boton-acceso:hover        { opacity: 0.85; }
+.boton-acceso:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
-.boton:focus-visible {
-    outline: 2px solid var(--acento);
-    outline-offset: 2px;
-}
-
-/* Enlaces */
+/* ── Enlace normal y enlace pequeño ──────────────────────────── */
 a {
     color: var(--texto);
     font-weight: 500;
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
+a:hover { text-decoration: underline; }
 
 .enlace-pequeno {
     font-size: 13px;
@@ -188,7 +167,7 @@ a:hover {
     color: var(--tenue);
 }
 
-
+/* ── Mensajes flash ───────────────────────────────────────────── */
 .alerta {
     margin-bottom: 18px;
     padding: 10px 12px;
@@ -196,13 +175,11 @@ a:hover {
     border-radius: var(--radio);
 }
 
-.alerta-exito {
-    background: var(--exito-fondo);
-    color: var(--exito-texto);
-}
+.alerta-exito { background: var(--exito-fondo); color: var(--exito-texto); }
+.alerta-error { background: #fbeceb;            color: var(--error); }
 
-
-.pie {
+/* ── Pie de tarjeta ("¿No tienes cuenta? Regístrate") ────────── */
+.acceso-pie {
     margin-top: 24px;
     padding-top: 20px;
     border-top: 1px solid var(--borde);
@@ -211,19 +188,7 @@ a:hover {
     text-align: center;
 }
 
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 420px) {
-    .tarjeta {
-        padding: 28px 22px;
-    }
-}
-.alerta-error {
-    background: #fbeceb;
-    color: var(--error);
-}
-
-
-.boton-secundario {
-    background: transparent;
-    color: var(--texto);
-    border: 1px solid var(--borde);
+    .tarjeta-acceso { padding: 28px 22px; }
 }

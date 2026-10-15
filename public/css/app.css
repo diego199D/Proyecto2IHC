@@ -1,6 +1,9 @@
-/* public/css/app.css — plantilla base (barra de arriba, botones, formularios) */
+/* =================================================================
+   app.css — Estilos globales de la app (barra, botones, tabla, etc.)
+   ================================================================= */
 
-* {
+/* ── Reset básico ─────────────────────────────────────────────── */
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -8,11 +11,12 @@ body {
     margin: 0;
     font-family: system-ui, "Segoe UI", Roboto, sans-serif;
     font-size: 15px;
+    line-height: 1.5;
     color: #1c1c1a;
     background: #f6f6f4;
 }
 
-/* Barra de arriba */
+/* ── Barra de navegación (arriba) ─────────────────────────────── */
 .barra {
     display: flex;
     align-items: center;
@@ -35,13 +39,14 @@ body {
     gap: 12px;
 }
 
+/* ── Contenedor central ───────────────────────────────────────── */
 .contenedor {
     max-width: 800px;
     margin: 0 auto;
     padding: 24px 16px;
 }
 
-/* Botones */
+/* ── Botones ──────────────────────────────────────────────────── */
 .boton {
     padding: 9px 16px;
     font: inherit;
@@ -51,6 +56,7 @@ body {
     border-radius: 50px;
     cursor: pointer;
     text-decoration: none;
+    display: inline-block;
 }
 
 .boton-claro {
@@ -58,7 +64,8 @@ body {
     background: #ffffff;
     border: 1px solid #e3e3df;
 }
-.boton-editar{
+
+.boton-editar {
     color: #1c1c1a;
     background: #a3a60b;
     border: 1px solid #e3e3df;
@@ -66,9 +73,16 @@ body {
 
 .boton-rojo {
     background: #a94836;
+    color: #ffffff;
 }
 
-/* Formularios */
+/* Botones desactivados (plan confirmado no se puede eliminar, cancelado no se puede reconfirmar) */
+.boton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── Campos de formulario (compartido en varias pantallas) ────── */
 .campo {
     display: flex;
     flex-direction: column;
@@ -76,7 +90,8 @@ body {
     margin-bottom: 16px;
 }
 
-.campo input {
+.campo input,
+.campo input[type="date"] {
     padding: 9px 12px;
     font: inherit;
     border: 1px solid #e3e3df;
@@ -88,7 +103,7 @@ body {
     color: #c0392b;
 }
 
-/* Mensajes flash */
+/* ── Mensajes flash (éxito / error) ──────────────────────────── */
 .alerta {
     margin-bottom: 16px;
     padding: 10px 12px;
@@ -103,4 +118,155 @@ body {
 .alerta-error {
     background: #fbeceb;
     color: #c0392b;
+}
+
+/* ── Pantalla "Mis planes" — encabezado ───────────────────────── */
+.encabezado-planes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.encabezado-planes h1 {
+    margin: 0;
+}
+
+/* ── Formulario de filtros ────────────────────────────────────── */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.filtros input[type="text"],
+.filtros select {
+    padding: 8px 12px;
+    font: inherit;
+    border: 1px solid #e3e3df;
+    border-radius: 50px;
+    background: #ffffff;
+}
+
+.filtros input[type="text"] {
+    flex: 1;
+    min-width: 160px;
+}
+
+/* ── Chips de filtros activos ─────────────────────────────────── */
+.filtros-activos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #6f6f6a;
+}
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #ffe683;
+    color: #1c1c1a;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.chip:hover {
+    background: #ffd93d;
+}
+
+/* ── Tabla de planes ──────────────────────────────────────────── */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e3e3df;
+    border-radius: 10px;
+}
+
+.tabla th,
+.tabla td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e3e3df;
+}
+
+.tabla th {
+    font-size: 13px;
+    color: #6f6f6a;
+}
+
+/* Celda de acciones: pone los botones en fila */
+.acciones {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Texto cuando no hay planes */
+.vacio {
+    text-align: center;
+    color: #6f6f6a;
+    padding: 24px !important;
+}
+
+/* ── Etiquetas de estado (chips de color) ─────────────────────── */
+.estado {
+    padding: 3px 10px;
+    font-size: 13px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.estado-pendiente  { background: #fff4d6; color: #8a6100; }
+.estado-confirmado { background: #edf7ef; color: #25663a; }
+.estado-cancelado  { background: #eeeeec; color: #6f6f6a; }
+
+/* ── Dialog (modal para crear plan) ──────────────────────────── */
+dialog {
+    width: 90%;
+    max-width: 400px;
+    padding: 24px;
+    border: none;
+    border-radius: 12px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+dialog h2 {
+    margin-top: 0;
+}
+
+.dialogo-botones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* ── Pantalla "Editar plan" — tarjeta centrada ────────────────── */
+.tarjeta-editar {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e3e3df;
+    border-radius: 12px;
+}
+
+.tarjeta-editar h1 {
+    margin-top: 0;
+}
+
+.botones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
 }

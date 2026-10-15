@@ -2,19 +2,22 @@
 
 @section('titulo', 'Mis planes')
 
-@section('estilos')
-    <link rel="stylesheet" href="{{ asset('css/planes/listar.css') }}">
-@endsection
-
 @section('contenido')
-<div class="encabezado">
+
+
+<div class="encabezado-planes">
     <h1>Mis planes</h1>
-    <button class="boton" onclick="document.getElementById('dialogo').showModal()">+ Crear plan</button>
+    <button class="boton" onclick="document.getElementById('modal-crear').showModal()">
+        + Crear plan
+    </button>
 </div>
 
-{{-- Formulario de búsqueda y filtros --}}
 <form method="GET" action="{{ route('planes.listar') }}" class="filtros">
-    <input type="text" name="buscar" placeholder="Buscar" value="{{ $buscar }}">
+
+    <input type="text"
+           name="buscar"
+           placeholder="Buscar por nombre"
+           value="{{ $buscar }}">
 
     <select name="estado">
         <option value="">Todos los estados</option>
@@ -25,38 +28,39 @@
 
     <select name="fecha">
         <option value="">Cualquier fecha</option>
-        <option value="7dias"   {{ $fecha === '7dias'   ? 'selected' : '' }}>Próximos 7 días</option>
+        <option value="7dias"    {{ $fecha === '7dias'    ? 'selected' : '' }}>Próximos 7 días</option>
         <option value="vencidos" {{ $fecha === 'vencidos' ? 'selected' : '' }}>Ya vencidos</option>
     </select>
 
     <button type="submit" class="boton">Filtrar</button>
 
+    {{-- Solo muestra "Limpiar" si hay algún filtro activo --}}
     @if ($buscar || $estado || $fecha)
         <a href="{{ route('planes.listar') }}" class="boton boton-claro">Limpiar</a>
     @endif
+
 </form>
 
-{{-- Chips de filtros activos --}}
 @if ($buscar || $estado || $fecha)
 <div class="filtros-activos">
     <span>Filtros activos:</span>
 
+    {{-- Chip de búsqueda: al clicar, se quita solo el buscar --}}
     @if ($buscar)
-        <a href="{{ route('planes.listar', array_filter(['estado' => $estado, 'fecha' => $fecha])) }}" class="chip">
-            "{{ $buscar }}" ×
-        </a>
+        <a href="{{ route('planes.listar', array_filter(['estado' => $estado, 'fecha' => $fecha])) }}"
+           class="chip">"{{ $buscar }}" ×</a>
     @endif
 
+    {{-- Chip de estado --}}
     @if ($estado)
-        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'fecha' => $fecha])) }}" class="chip">
-            {{ ucfirst($estado) }} ×
-        </a>
+        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'fecha' => $fecha])) }}"
+           class="chip">{{ ucfirst($estado) }} ×</a>
     @endif
 
+    {{-- Chip de fecha --}}
     @if ($fecha)
-        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'estado' => $estado])) }}" class="chip">
-            {{ $fecha === '7dias' ? 'Próximos 7 días' : 'Ya vencidos' }} ×
-        </a>
+        <a href="{{ route('planes.listar', array_filter(['buscar' => $buscar, 'estado' => $estado])) }}"
+           class="chip">{{ $fecha === '7dias' ? 'Próximos 7 días' : 'Ya vencidos' }} ×</a>
     @endif
 </div>
 @endif
@@ -72,48 +76,88 @@
         </tr>
     </thead>
     <tbody>
+
+        {{-- @forelse itera los planes; si no hay ninguno, cae en @empty --}}
         @forelse ($planes as $plan)
         <tr>
+
+            {{-- Nombre y organizador --}}
             <td>{{ $plan->nombre }}</td>
             <td>{{ $plan->organizador }}</td>
+
+            {{-- Fecha formateada como dd/mm/yyyy --}}
             <td>{{ $plan->fecha_limite->format('d/m/Y') }}</td>
+
+            {{-- Chip de color según el estado --}}
             <td>
                 <span class="estado estado-{{ $plan->estado }}">
                     @if ($plan->estado === 'pendiente')  Pendiente
-                    @elseif ($plan->estado === 'confirmado')  Confirmado
-                    @else  Cancelado
+                    @elseif ($plan->estado === 'confirmado') Confirmado
+                    @else Cancelado
                     @endif
                 </span>
             </td>
-            <td class="acciones">
-                {{-- Confirmar o Cancelar, según el estado actual --}}
-                <form method="POST" action="{{ route('planes.estado', $plan) }}">
-                    @csrf
-                    @method('PUT')
-                    @if ($plan->estado == 'confirmado')
-                        <input type="hidden" name="estado" value="cancelado">
-                        <button type="submit" class="boton boton-claro">Cancelar</button>
-                    @else
-                        <input type="hidden" name="estado" value="confirmado">
-                        <button type="submit" class="boton boton-claro">Confirmar</button>
-                    @endif
-                </form>
 
+            {{-- Columna de acciones --}}
+            <td class="acciones">
+
+                {{-- BOTÓN DE ESTADO
+                     pendiente  → muestra "Confirmar"
+                     confirmado → muestra "Cancelar" (con aviso de que no podrá reactivarse)
+                     cancelado  → muestra "Confirmar" deshabilitado (regla de negocio) --}}
+
+                @if ($plan->estado == 'pendiente')
+                    <form method="POST" action="{{ route('planes.estado', $plan) }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="estado" value="confirmado">
+                        <button type="submit" class="boton boton-claro"
+                            data-confirm="¿Confirmar el plan &laquo;{{ $plan->nombre }}&raquo;?"
+                            data-icon="success"
+                            data-btn-ok="Sí, confirmar">Confirmar</button>
+                    </form>
+
+                @elseif ($plan->estado == 'confirmado')
+                    <form method="POST" action="{{ route('planes.estado', $plan) }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="estado" value="cancelado">
+                        <button type="submit" class="boton boton-claro"
+                            data-confirm="¿Cancelar el plan &laquo;{{ $plan->nombre }}&raquo;? No podrá volver a confirmarse."
+                            data-icon="warning"
+                            data-btn-ok="Sí, cancelar">Cancelar</button>
+                    </form>
+
+                @else
+                    {{-- Plan cancelado: no puede volver a confirmarse --}}
+                    <button class="boton boton-claro" disabled
+                            title="Un plan cancelado no puede volver a confirmarse">Confirmar</button>
+                @endif
+
+                {{-- BOTÓN EDITAR --}}
                 <a href="{{ route('planes.editar', $plan) }}" class="boton boton-editar">Editar</a>
 
-                {{-- Restricción: si está confirmado, no se puede eliminar --}}
+                {{-- BOTÓN ELIMINAR
+                     Si está confirmado: deshabilitado (primero hay que cancelarlo)
+                     Si no: formulario DELETE con confirmación SweetAlert2 --}}
                 @if ($plan->estado == 'confirmado')
-                    <button class="boton boton-rojo" disabled title="">Eliminar</button>
+                    <button class="boton boton-rojo" disabled
+                            title="Cancela el plan antes de eliminarlo">Eliminar</button>
                 @else
                     <form method="POST" action="{{ route('planes.eliminar', $plan) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="boton boton-rojo" onclick="return confirm('¿Seguro que quieres eliminar el plan {{ $plan->nombre }}?')">Eliminar</button>
+                        <button type="submit" class="boton boton-rojo"
+                            data-confirm="¿Eliminar &laquo;{{ $plan->nombre }}&raquo;? Esta acción no se puede deshacer."
+                            data-icon="error"
+                            data-btn-ok="Sí, eliminar">Eliminar</button>
                     </form>
                 @endif
+
             </td>
         </tr>
         @empty
+            {{-- Cuando no hay planes (o no coinciden los filtros) --}}
             <tr>
                 <td colspan="5" class="vacio">
                     @if ($buscar || $estado || $fecha)
@@ -124,12 +168,11 @@
                 </td>
             </tr>
         @endforelse
+
     </tbody>
 </table>
 
-{{-- Dialog con el formulario para crear un plan --}}
-{{-- Si hubo errores al guardar, se abre solo para mostrarlos --}}
-<dialog id="dialogo" {{ $errors->any() ? 'open' : '' }}>
+<dialog id="modal-crear" {{ $errors->any() ? 'open' : '' }}>
     <h2>Nuevo plan</h2>
 
     <form method="POST" action="{{ route('planes.guardar') }}">
@@ -137,7 +180,7 @@
 
         <div class="campo">
             <label for="nombre">Nombre del plan</label>
-            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}">
+            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Nombre del plan">
             @error('nombre')
                 <span class="campo-error">{{ $message }}</span>
             @enderror
@@ -145,7 +188,7 @@
 
         <div class="campo">
             <label for="organizador">Organizador</label>
-            <input type="text" id="organizador" name="organizador" value="{{ old('organizador') }}">
+            <input type="text" id="organizador" name="organizador" value="{{ old('organizador') }}" placeholder="Nombre del organizador">
             @error('organizador')
                 <span class="campo-error">{{ $message }}</span>
             @enderror
@@ -159,10 +202,13 @@
             @enderror
         </div>
 
+        {{-- Botones del modal --}}
         <div class="dialogo-botones">
-            <button type="button" class="boton boton-claro" onclick="document.getElementById('dialogo').close()">Cancelar</button>
+            <button type="button" class="boton boton-claro"
+                    onclick="document.getElementById('modal-crear').close()">Cancelar</button>
             <button type="submit" class="boton">Guardar</button>
         </div>
     </form>
 </dialog>
+
 @endsection
