@@ -72,9 +72,12 @@ body {
 }
 
 .boton-rojo {
-    background: #a94836;
-    color: #ffffff;
+    padding: 3px;
+    width: 30px;
+    border-radius: 10px;
+    background-color: rgb(185, 14, 19);
 }
+
 
 /* Botones desactivados (plan confirmado no se puede eliminar, cancelado no se puede reconfirmar) */
 .boton:disabled {
@@ -269,4 +272,17 @@ dialog h2 {
     justify-content: flex-end;
     gap: 8px;
     margin-top: 8px;
+}
+
+.botones-columna{
+    display: flex;
+    flex-direction: column;
+}
+.botones-columna a{
+    text-align: center;
+    padding: 3px;
+    width: 30px;
+    border-radius: 10px;
+    background-color: orange;
+    margin-bottom: 5px;
 }

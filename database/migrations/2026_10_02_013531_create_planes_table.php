@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('nombre', 255);
             $table->string('organizador', 255);
             $table->date('fecha_limite');
-            $table->foreignId('user_id');   // El usuario que creó el plan
+            $table->foreignId('user_id');   // El usuario que creo el plan
             $table->timestamps();
         });
     }

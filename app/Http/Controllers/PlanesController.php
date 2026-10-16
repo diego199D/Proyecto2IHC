@@ -9,8 +9,8 @@ class PlanesController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Mensajes de validación en español
-    | Los reutilizamos en guardar() y actualizar()
+    | \
+    /
     |--------------------------------------------------------------------------
     */
     private array $mensajes = [
@@ -22,8 +22,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | LISTAR — GET /mis-planes
-    | Muestra la tabla de planes del usuario con filtros opcionales
+    \/
+    /
     |--------------------------------------------------------------------------
     */
     public function listar(Request $request)
@@ -44,8 +44,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | GUARDAR — POST /planes
-    | Crea un plan nuevo desde el formulario del modal
+    | /
+    /
     |--------------------------------------------------------------------------
     */
     public function guardar(Request $request)
@@ -68,8 +68,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | EDITAR — GET /planes/{plan}/editar
-    | Muestra el formulario para editar un plan existente
+    | 
+    /
     |--------------------------------------------------------------------------
     */
     public function editar(Plan $plan)
@@ -79,8 +79,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | ACTUALIZAR — PUT /planes/{plan}
-    | Guarda los cambios del formulario de edición
+    | /
+    /
     |--------------------------------------------------------------------------
     */
     public function actualizar(Request $request, Plan $plan)
@@ -101,8 +101,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | ELIMINAR — DELETE /planes/{plan}
-    | Elimina un plan (solo si NO está confirmado)
+    |
+    /
     |--------------------------------------------------------------------------
     */
     public function eliminar(Plan $plan)
@@ -120,8 +120,8 @@ class PlanesController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | CAMBIAR ESTADO — PUT /planes/{plan}/estado
-    | Cambia el estado entre: pendiente, confirmado, cancelado
+    | 
+    \
     |--------------------------------------------------------------------------
     */
     public function cambiarEstado(Request $request, Plan $plan)
@@ -130,7 +130,7 @@ class PlanesController extends Controller
             'estado' => 'required|in:pendiente,confirmado,cancelado',
         ]);
 
-        // Regla de negocio: un plan cancelado NO puede volver a confirmarse
+        //  un plan cancelado NO puede volver a confirmarse
         if ($plan->estado === 'cancelado' && $request->estado === 'confirmado') {
             return redirect()->route('planes.listar')
                              ->with('error', 'Un plan cancelado no puede volver a confirmarse.');

@@ -60,7 +60,7 @@
     {{-- Script global: spinner automático + confirmaciones con data-confirm --}}
     <script src="{{ asset('js/ui.js') }}"></script>
 
-    {{-- Cada vista puede agregar scripts extra aquí --}}
+    {{-- Cada vista puede agregar scripts extra --}}
     @yield('scripts')
 
 </body>

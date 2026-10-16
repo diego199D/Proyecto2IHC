@@ -133,27 +133,27 @@
                     <button class="boton boton-claro" disabled
                             title="Un plan cancelado no puede volver a confirmarse">Confirmar</button>
                 @endif
+                <div class="botones-columna">
+                    {{-- BOTÓN EDITAR --}}
+                    <a href="{{ route('planes.editar', $plan) }}" class="boton boton-editar"> ✏ </a>
 
-                {{-- BOTÓN EDITAR --}}
-                <a href="{{ route('planes.editar', $plan) }}" class="boton boton-editar">Editar</a>
-
-                {{-- BOTÓN ELIMINAR
-                     Si está confirmado: deshabilitado (primero hay que cancelarlo)
-                     Si no: formulario DELETE con confirmación SweetAlert2 --}}
-                @if ($plan->estado == 'confirmado')
-                    <button class="boton boton-rojo" disabled
-                            title="Cancela el plan antes de eliminarlo">Eliminar</button>
-                @else
-                    <form method="POST" action="{{ route('planes.eliminar', $plan) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="boton boton-rojo"
-                            data-confirm="¿Eliminar &laquo;{{ $plan->nombre }}&raquo;? Esta acción no se puede deshacer."
-                            data-icon="error"
-                            data-btn-ok="Sí, eliminar">Eliminar</button>
-                    </form>
-                @endif
-
+                    {{-- BOTÓN ELIMINAR
+                        Si está confirmado: deshabilitado (primero hay que cancelarlo)
+                        Si no: formulario DELETE con confirmación SweetAlert2 --}}
+                    @if ($plan->estado == 'confirmado')
+                        <button class="boton boton-rojo" disabled
+                                title="Cancela el plan antes de eliminarlo"> 🗑 </button>
+                    @else
+                        <form method="POST" action="{{ route('planes.eliminar', $plan) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="boton boton-rojo"
+                                data-confirm="¿Eliminar &laquo;{{ $plan->nombre }}&raquo;? Esta acción no se puede deshacer."
+                                data-icon="error"
+                                data-btn-ok="Sí, eliminar"> 🗑 </button>
+                        </form>
+                    @endif
+                </div>
             </td>
         </tr>
         @empty
